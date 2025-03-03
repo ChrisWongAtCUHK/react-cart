@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchAll, selectProduct } from '../features/slices/productSlice'
+import { addCart } from '../features/slices/cartSlice'
 import { toCurrency } from '../utils'
 
 function Product() {
@@ -34,7 +35,7 @@ function Product() {
           <p>{items[id].description}</p>
           <p className='mt-4 text-lg'>{toCurrency(items[id].price)}</p>
           <div className='card-actions'>
-            <button className='btn btn-primary'>Add to Cart</button>
+            <button className='btn btn-primary' onClick={() => dispatch(addCart({productId: id}))}>Add to Cart</button>
           </div>
         </div>
       </div>
