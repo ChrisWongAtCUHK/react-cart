@@ -30,7 +30,7 @@ function Nav() {
           </Link>
           <Link className='btn btn-ghost btn-sm rounded-btn' to='/cart'>
             Cart
-            <div className='badge ml-2 badge-outline' v-text='count' />
+            <div className='badge ml-2 badge-outline'></div>
           </Link>
         </div>
       </div>
