@@ -10,8 +10,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='cart' element={<Cart />} />
-          <Route path='product' element={<Product />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/product/:id' element={<Product />} />
         </Route>
       </Routes>
     </BrowserRouter>

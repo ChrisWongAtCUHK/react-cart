@@ -13,7 +13,7 @@ function ProductCard(props) {
       </figure>
       <div className='card-body'>
         <h2 className='card-title'>
-          <Link className='link link-hover' to='/product'>
+          <Link className='link link-hover' to={`/product/${props.product.id}`}>
             {props.product.title}
           </Link>
         </h2>
