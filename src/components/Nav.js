@@ -4,7 +4,7 @@ function Nav() {
   return (
     <div className='navbar mb-2 shadow-lg bg-neutral text-neutral-content'>
       <div className='flex-none lg:hidden'>
-        <label for='drawer-input' className='btn btn-square btn-ghost'>
+        <label htmlFor='drawer-input' className='btn btn-square btn-ghost'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -12,9 +12,9 @@ function Nav() {
             className='inline-block w-6 h-6 stroke-current'
           >
             <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
               d='M4 6h16M4 12h16M4 18h16'
             />
           </svg>

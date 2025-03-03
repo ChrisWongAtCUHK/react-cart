@@ -10,11 +10,7 @@ const initialState = {
 }
 
 export const fetchAll = createAsyncThunk('product/fetchAll', () => {
-  console.log('fetchAll')
-  return fetch(`${fakeStoreUrl}/products`).then((res) => {
-    console.log(res)
-    return res.json()
-  })
+  return fetch(`${fakeStoreUrl}/products`).then((res) => res.json())
 })
 
 const productSlice = createSlice({
