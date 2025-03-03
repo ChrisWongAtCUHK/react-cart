@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import { toCurrency } from '../utils'
+import { useDispatch } from 'react-redux'
+import { addCart } from '../features/slices/cartSlice'
 
 function ProductCard(props) {
+  const dispatch = useDispatch()
+
   return (
     <div className='card border'>
       <figure className='px-8 pt-10'>
@@ -19,7 +23,7 @@ function ProductCard(props) {
         </h2>
         <p>{toCurrency(props.product.price)}</p>
         <div className='justify-end card-actions'>
-          <button className='btn btn-primary'>Add to Cart</button>
+          <button className='btn btn-primary' onClick={() => dispatch(addCart({ productId: props.product.id}))}>Add to Cart</button>
         </div>
       </div>
     </div>

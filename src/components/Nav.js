@@ -1,6 +1,20 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { loadCart, selectCart } from '../features/slices/cartSlice'
 
 function Nav() {
+  const cart = useSelector(selectCart)
+  const dispatch = useDispatch()
+  const count = Object.keys(cart.contents).reduce((acc, id) => {
+    return acc + cart.contents[id].quantity
+  }, 0)
+
+  useEffect(() => {
+    dispatch(loadCart())
+  }, [dispatch])
+
+
   return (
     <div className='navbar mb-2 shadow-lg bg-neutral text-neutral-content'>
       <div className='flex-none lg:hidden'>
@@ -30,7 +44,9 @@ function Nav() {
           </Link>
           <Link className='btn btn-ghost btn-sm rounded-btn' to='/cart'>
             Cart
-            <div className='badge ml-2 badge-outline'></div>
+            <div className='badge ml-2 badge-outline'>
+              {count}
+            </div>
           </Link>
         </div>
       </div>
