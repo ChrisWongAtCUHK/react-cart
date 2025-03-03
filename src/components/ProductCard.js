@@ -3,7 +3,7 @@ import { toCurrency } from '../utils'
 
 function ProductCard(props) {
   return (
-    <div className='card bordered '>
+    <div className='card border'>
       <figure className='px-8 pt-10'>
         <img
           src={props.product.image}
