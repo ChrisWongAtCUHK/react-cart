@@ -14,7 +14,6 @@ function Nav() {
     dispatch(loadCart())
   }, [dispatch])
 
-
   return (
     <div className='navbar mb-2 shadow-lg bg-neutral text-neutral-content'>
       <div className='flex-none lg:hidden'>
