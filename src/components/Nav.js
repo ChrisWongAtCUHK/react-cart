@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadCart, selectCart } from '../features/slices/cartSlice'
+import Search from './Search'
 
 function Nav() {
   const cart = useSelector(selectCart)
@@ -49,6 +50,9 @@ function Nav() {
           </Link>
         </div>
       </div>
+      <div className="flex-1 lg:flex-none">
+      <Search />
+    </div>
     </div>
   )
 }
