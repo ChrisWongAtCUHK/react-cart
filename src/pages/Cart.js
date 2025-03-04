@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectCart } from '../features/slices/cartSlice'
 import { fetchAll, selectProduct } from '../features/slices/productSlice'
 import CartCard from '../components/CartCard'
+import CartCardSkeleton from '../components/CartCardSkeleton'
 import { toCurrency } from '../utils'
 
 function Cart() {
@@ -39,7 +40,7 @@ function Cart() {
   }, [items, contents, dispatch])
 
   if (items.length === 0) {
-    return <h1> Loading </h1>
+    return <CartCardSkeleton />
   }
 
   return (
