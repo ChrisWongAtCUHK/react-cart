@@ -7,7 +7,7 @@ function ProductCard(props) {
   const dispatch = useDispatch()
 
   return (
-    <div className='card border'>
+    <div className='card border static'>
       <figure className='px-8 pt-10'>
         <img
           src={props.product.image}

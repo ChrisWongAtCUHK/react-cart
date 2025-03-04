@@ -16,7 +16,7 @@ function Nav() {
   }, [dispatch])
 
   return (
-    <div className='navbar mb-2 shadow-lg bg-neutral text-neutral-content'>
+    <nav className='navbar mb-2 shadow-lg bg-neutral text-neutral-content fixed w-full top-0 left-0'>
       <div className='flex-none lg:hidden'>
         <label htmlFor='drawer-input' className='btn btn-square btn-ghost'>
           <svg
@@ -44,16 +44,14 @@ function Nav() {
           </Link>
           <Link className='btn btn-ghost btn-sm rounded-btn' to='/cart'>
             Cart
-            <div className='badge ml-2 badge-outline'>
-              {count}
-            </div>
+            <div className='badge ml-2 badge-outline'>{count}</div>
           </Link>
         </div>
       </div>
-      <div className="flex-1 lg:flex-none">
-      <Search />
-    </div>
-    </div>
+      <div className='flex-1 lg:flex-none'>
+        <Search />
+      </div>
+    </nav>
   )
 }
 

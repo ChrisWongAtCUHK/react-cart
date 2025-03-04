@@ -7,7 +7,7 @@ function CartCard({ cartProduct }) {
   const dispatch = useDispatch()
 
   return (
-    <div className='card md:card-side bordered'>
+    <div className='card md:card-side bordered static'>
       <figure className='p-8'>
         <img
           src={cartProduct.image}
