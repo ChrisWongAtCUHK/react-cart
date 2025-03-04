@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchAll, selectProduct } from '../features/slices/productSlice'
 import { addCart } from '../features/slices/cartSlice'
+import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import { toCurrency } from '../utils'
 
 function Product() {
@@ -17,7 +18,7 @@ function Product() {
   }, [items, dispatch])
 
   if (items.length === 0) {
-    return <h1> Loading </h1>
+    return <ProductCardSkeleton />
   }
 
   return (
