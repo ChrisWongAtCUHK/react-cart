@@ -8,6 +8,7 @@ function App() {
     return savedCart ? JSON.parse(savedCart) : []
   })
   const [products, setProducts] = useState([])
+  const [showToast, setShowToast] = useState(false)
 
   // 加入購物車邏輯
   const addToCart = (product) => {
@@ -20,6 +21,7 @@ function App() {
             : item,
         )
       }
+      triggerToast() // 觸發通知
       return [...currCart, { ...product, quantity: 1 }]
     })
   }
@@ -47,6 +49,15 @@ function App() {
     (sum, item) => sum + item.price * item.quantity,
     0,
   )
+
+  // 建立一個觸發通知的函式
+  const triggerToast = () => {
+    setShowToast(true)
+    // 3 秒後自動關閉
+    setTimeout(() => {
+      setShowToast(false)
+    }, 3000)
+  }
 
   useEffect(() => {
     fetch('./data/products.json')
@@ -171,6 +182,29 @@ function App() {
           </div>
         </div>
       </div>
+      {/* Toast 通知 */}
+      {showToast && (
+        <div className='toast toast-top toast-center z-100'>
+          <div className='alert alert-success shadow-lg border-none bg-primary text-primary-content'>
+            <div className='flex items-center gap-2'>
+              <svg
+                xmlns='http://w3.org'
+                className='stroke-current shrink-0 h-6 w-6'
+                fill='none'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                />
+              </svg>
+              <span className='font-bold'>成功加入購物車！🥳</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
