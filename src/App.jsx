@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { PRODUCTS } from './data/products'
+import { useState, useEffect } from 'react'
 
 function App() {
   // 這是核心：購物清單狀態
   const [cart, setCart] = useState([])
+  const [products, setProducts] = useState([])
 
   // 加入購物車邏輯
   const addToCart = (product) => {
@@ -44,6 +44,18 @@ function App() {
     0,
   )
 
+  useEffect(() => {
+    fetch('./data/products.json')
+      .then((response) => {
+        console.log('Fetch response:', response) // 確認是否成功取得回應
+        return response.json()
+      })
+      .then((data) => {
+        console.log('Fetched products:', data) // 確認資料是否正確
+        setProducts(data)
+      })
+  }, []) // Runs once on mount
+
   return (
     <div className='min-h-screen bg-base-200 p-4 lg:p-10'>
       <div className='max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8'>
@@ -51,7 +63,7 @@ function App() {
         <div className='lg:col-span-2'>
           <h2 className='text-2xl font-bold mb-6'>選購商品</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-            {PRODUCTS.map((p) => (
+            {products.map((p) => (
               <div
                 key={p.id}
                 className='card card-side bg-base-100 shadow-sm border border-base-300'

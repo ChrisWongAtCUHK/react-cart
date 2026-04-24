@@ -1,5 +1,0 @@
-export const PRODUCTS = [
-  { id: 1, name: 'Bumblebee Headphone', price: 599, icon: '🎧' },
-  { id: 2, name: 'Tech Watch', price: 1299, icon: '⌚' },
-  { id: 3, name: 'Retro Keyboard', price: 850, icon: '⌨️' },
-]
