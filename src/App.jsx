@@ -101,7 +101,13 @@ function App() {
             <div className='divider my-2'></div>
 
             {cart.length === 0 ? (
-              <p className='text-center opacity-50 py-10'>清單是空的 🥺</p>
+              <div className='text-center py-10'>
+                <p className='text-5xl mb-4'>🛒</p>
+                <p className='text-base-content/50'>你的購物清單空空如也...</p>
+                <button className='btn btn-link btn-primary mt-2'>
+                  快去選購吧！
+                </button>
+              </div>
             ) : (
               <div className='space-y-4'>
                 {cart.map((item) => (
@@ -145,9 +151,16 @@ function App() {
 
                 <div className='divider'></div>
 
-                <div className='flex justify-between font-black text-xl px-2'>
-                  <span>總計</span>
-                  <span className='text-primary'>${totalPrice}</span>
+                <div className='stats shadow bg-primary text-primary-content w-full mt-4'>
+                  <div className='stat'>
+                    <div className='stat-title text-primary-content/70'>
+                      總金額
+                    </div>
+                    <div className='stat-value text-3xl'>${totalPrice}</div>
+                    <div className='stat-desc text-primary-content/70'>
+                      含稅及運費
+                    </div>
+                  </div>
                 </div>
 
                 <button className='btn btn-primary btn-block mt-4 shadow-lg shadow-primary/30'>
