@@ -14,10 +14,10 @@ function App() {
   const addToast = (message) => {
     const id = crypto.randomUUID() // 生成如 "550e8400-e29b-41d4-a716-446655440000" 的唯一碼
 
-    // 1. 新增通知到陣列
+    // 新增通知到陣列
     setToasts((prev) => [...prev, { id, message }])
 
-    // 2. 設定 3 秒後自動移除「該筆」通知
+    // 設定 3 秒後自動移除「該筆」通知
     setTimeout(() => {
       setToasts((prev) => prev.filter((toast) => toast.id !== id))
     }, 3000)
@@ -25,6 +25,9 @@ function App() {
 
   // 加入購物車邏輯
   const addToCart = (product) => {
+    // 先處理通知 (副作用)
+    addToast(`已加入 ${product.name}！ 🥳`)
+
     setCart((currCart) => {
       const isItemsInCart = currCart.find((item) => item.id === product.id)
       if (isItemsInCart) {
@@ -34,8 +37,7 @@ function App() {
             : item,
         )
       }
-      // 傳入商品名稱，讓通知更具體
-      addToast(`已加入 ${product.name}！ 🥳`)
+
       return [...currCart, { ...product, quantity: 1 }]
     })
   }
