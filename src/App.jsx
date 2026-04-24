@@ -46,12 +46,8 @@ function App() {
 
   useEffect(() => {
     fetch('./data/products.json')
-      .then((response) => {
-        console.log('Fetch response:', response) // 確認是否成功取得回應
-        return response.json()
-      })
+      .then((response) => response.json())
       .then((data) => {
-        console.log('Fetched products:', data) // 確認資料是否正確
         setProducts(data)
       })
   }, []) // Runs once on mount
