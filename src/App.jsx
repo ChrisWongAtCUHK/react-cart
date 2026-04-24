@@ -8,7 +8,20 @@ function App() {
     return savedCart ? JSON.parse(savedCart) : []
   })
   const [products, setProducts] = useState([])
-  const [showToast, setShowToast] = useState(false)
+  const [toasts, setToasts] = useState([]) // 存放多筆通知的陣列
+
+  // 觸發多筆通知的函式
+  const addToast = (message) => {
+    const id = crypto.randomUUID() // 生成如 "550e8400-e29b-41d4-a716-446655440000" 的唯一碼
+
+    // 1. 新增通知到陣列
+    setToasts((prev) => [...prev, { id, message }])
+
+    // 2. 設定 3 秒後自動移除「該筆」通知
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((toast) => toast.id !== id))
+    }, 3000)
+  }
 
   // 加入購物車邏輯
   const addToCart = (product) => {
@@ -21,7 +34,8 @@ function App() {
             : item,
         )
       }
-      triggerToast() // 觸發通知
+      // 傳入商品名稱，讓通知更具體
+      addToast(`已加入 ${product.name}！ 🥳`)
       return [...currCart, { ...product, quantity: 1 }]
     })
   }
@@ -49,15 +63,6 @@ function App() {
     (sum, item) => sum + item.price * item.quantity,
     0,
   )
-
-  // 建立一個觸發通知的函式
-  const triggerToast = () => {
-    setShowToast(true)
-    // 3 秒後自動關閉
-    setTimeout(() => {
-      setShowToast(false)
-    }, 3000)
-  }
 
   useEffect(() => {
     fetch('./data/products.json')
@@ -182,14 +187,17 @@ function App() {
           </div>
         </div>
       </div>
-      {/* Toast 通知 */}
-      {showToast && (
-        <div className='toast toast-top toast-center z-100'>
-          <div className='alert alert-success shadow-lg border-none bg-primary text-primary-content'>
+      {/* --- 多重 Toast 通知系統 --- */}
+      <div className='toast toast-end toast-bottom p-6 gap-2'>
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className='alert alert-success shadow-lg border-none bg-primary text-primary-content animate-in fade-in slide-in-from-right-10 duration-300'
+          >
             <div className='flex items-center gap-2'>
               <svg
                 xmlns='http://w3.org'
-                className='stroke-current shrink-0 h-6 w-6'
+                className='h-6 w-6 shrink-0 stroke-current'
                 fill='none'
                 viewBox='0 0 24 24'
               >
@@ -200,11 +208,11 @@ function App() {
                   d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
                 />
               </svg>
-              <span className='font-bold'>成功加入購物車！🥳</span>
+              <span className='font-bold'>{toast.message}</span>
             </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   )
 }
