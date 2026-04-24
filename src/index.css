@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* 載入配置檔案 */
-@config "../tailwind.config.js";
-
-@import "daisyui";
+/* 這裡直接引入 daisyUI 插件 */
+@plugin "daisyui" {
+  themes: bumblebee; /* 在這裡設定主題，而不是在 JS 裡 */
+}
