@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react'
 
 function App() {
   // 這是核心：購物清單狀態
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('shopping-cart')
+    // 如果有舊資料就解析 JSON，沒有就回傳空陣列
+    return savedCart ? JSON.parse(savedCart) : []
+  })
   const [products, setProducts] = useState([])
 
   // 加入購物車邏輯
@@ -51,6 +55,10 @@ function App() {
         setProducts(data)
       })
   }, []) // Runs once on mount
+
+  useEffect(() => {
+    localStorage.setItem('shopping-cart', JSON.stringify(cart))
+  }, [cart]) // 當 cart 陣列改變時，這段代碼就會執行
 
   return (
     <div className='min-h-screen bg-base-200 p-4 lg:p-10'>
