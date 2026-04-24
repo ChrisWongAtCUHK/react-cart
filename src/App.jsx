@@ -1,8 +1,6 @@
 import { useState } from 'react'
 
 function App() {
-  const [cartCount, setCartCount] = useState(0)
-
   const products = [
     {
       id: 1,
@@ -24,84 +22,146 @@ function App() {
     },
   ]
 
+  // 這是核心：購物清單狀態
+  const [cart, setCart] = useState([])
+
+  // 加入購物車邏輯
+  const addToCart = (product) => {
+    setCart((currCart) => {
+      const isItemsInCart = currCart.find((item) => item.id === product.id)
+      if (isItemsInCart) {
+        return currCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        )
+      }
+      return [...currCart, { ...product, quantity: 1 }]
+    })
+  }
+
+  // 修改數量邏輯 (+1 或 -1)
+  const updateQuantity = (id, delta) => {
+    setCart((currCart) =>
+      currCart.map((item) => {
+        if (item.id === id) {
+          const newQty = item.quantity + delta
+          return { ...item, quantity: newQty > 0 ? newQty : 1 }
+        }
+        return item
+      }),
+    )
+  }
+
+  // 移除商品
+  const removeItem = (id) => {
+    setCart((currCart) => currCart.filter((item) => item.id !== id))
+  }
+
+  // 計算總價
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  )
+
   return (
-    <div className='min-h-screen bg-base-200'>
-      {/* 導覽列 */}
-      <div className='navbar bg-base-100 shadow-sm px-4 lg:px-20'>
-        <div className='flex-1'>
-          <a className='btn btn-ghost text-xl font-bold text-primary'>
-            React Cart 🛒
-          </a>
-        </div>
-        <div className='flex-none'>
-          <div className='dropdown dropdown-end'>
-            <button className='btn btn-ghost btn-circle'>
-              <div className='indicator'>
-                <svg
-                  xmlns='http://w3.org'
-                  className='h-5 w-5'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
-                  />
-                </svg>
-                <span className='badge badge-sm badge-primary indicator-item'>
-                  {cartCount}
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 主內容區 */}
-      <main className='p-10 max-w-6xl mx-auto'>
-        <h1 className='text-3xl font-bold mb-8'>熱門商品</h1>
-
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className='card bg-base-100 shadow-xl border border-base-300'
-            >
-              <figure className='px-10 pt-10'>
-                <div className='w-full h-40 bg-primary/20 rounded-xl flex items-center justify-center text-4xl'>
-                  🎁
-                </div>
-              </figure>
-              <div className='card-body items-center text-center'>
-                <h2 className='card-title text-secondary'>{product.name}</h2>
-                <p className='text-sm opacity-70'>{product.desc}</p>
-                <div className='text-2xl font-black my-2'>${product.price}</div>
-                <div className='card-actions'>
+    <div className='min-h-screen bg-base-200 p-4 lg:p-10'>
+      <div className='max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8'>
+        {/* 左側：商品列表 */}
+        <div className='lg:col-span-2'>
+          <h2 className='text-2xl font-bold mb-6'>選購商品</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            {products.map((p) => (
+              <div
+                key={p.id}
+                className='card card-side bg-base-100 shadow-sm border border-base-300'
+              >
+                <figure className='bg-primary/10 w-24 flex items-center justify-center text-3xl'>
+                  {p.icon}
+                </figure>
+                <div className='card-body p-4'>
+                  <h3 className='card-title text-sm'>{p.name}</h3>
+                  <p className='font-bold text-primary'>${p.price}</p>
                   <button
-                    className='btn btn-primary'
-                    onClick={() => setCartCount((prev) => prev + 1)}
+                    className='btn btn-primary btn-sm mt-2'
+                    onClick={() => addToCart(p)}
                   >
-                    加入購物車
+                    加入
                   </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* 重置按鈕 */}
-        <div className='mt-10 text-center'>
-          <button
-            className='btn btn-outline btn-sm'
-            onClick={() => setCartCount(0)}
-          >
-            清空購物車
-          </button>
+        {/* 右側：詳細購物清單 */}
+        <div className='card bg-base-100 shadow-xl h-fit border-t-4 border-primary'>
+          <div className='card-body p-6'>
+            <h2 className='card-title flex justify-between'>
+              購物清單
+              <div className='badge badge-secondary'>{cart.length} 項</div>
+            </h2>
+
+            <div className='divider my-2'></div>
+
+            {cart.length === 0 ? (
+              <p className='text-center opacity-50 py-10'>清單是空的 🥺</p>
+            ) : (
+              <div className='space-y-4'>
+                {cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className='flex justify-between items-center bg-base-200 p-2 rounded-lg'
+                  >
+                    <div>
+                      <p className='font-bold text-sm'>{item.name}</p>
+                      <p className='text-xs opacity-60'>
+                        ${item.price} x {item.quantity}
+                      </p>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                      <div className='join'>
+                        <button
+                          className='join-item btn btn-xs btn-square'
+                          onClick={() => updateQuantity(item.id, -1)}
+                        >
+                          -
+                        </button>
+                        <button className='join-item btn btn-xs px-2 no-animation'>
+                          {item.quantity}
+                        </button>
+                        <button
+                          className='join-item btn btn-xs btn-square'
+                          onClick={() => updateQuantity(item.id, 1)}
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        className='btn btn-ghost btn-xs text-error'
+                        onClick={() => removeItem(item.id)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                <div className='divider'></div>
+
+                <div className='flex justify-between font-black text-xl px-2'>
+                  <span>總計</span>
+                  <span className='text-primary'>${totalPrice}</span>
+                </div>
+
+                <button className='btn btn-primary btn-block mt-4 shadow-lg shadow-primary/30'>
+                  前往結帳
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   )
 }
