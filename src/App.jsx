@@ -1,27 +1,7 @@
 import { useState } from 'react'
+import { PRODUCTS } from './data/products'
 
 function App() {
-  const products = [
-    {
-      id: 1,
-      name: 'Bumblebee Headphone',
-      price: 599,
-      desc: '的高品質無線耳機，完美適配你的黃色主題。',
-    },
-    {
-      id: 2,
-      name: 'Tech Watch',
-      price: 1299,
-      desc: '智慧生活從手腕開始，支援多種運動模式。',
-    },
-    {
-      id: 3,
-      name: 'Retro Keyboard',
-      price: 850,
-      desc: '機械式手感，敲擊聲音清脆，辦公神器。',
-    },
-  ]
-
   // 這是核心：購物清單狀態
   const [cart, setCart] = useState([])
 
@@ -71,7 +51,7 @@ function App() {
         <div className='lg:col-span-2'>
           <h2 className='text-2xl font-bold mb-6'>選購商品</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-            {products.map((p) => (
+            {PRODUCTS.map((p) => (
               <div
                 key={p.id}
                 className='card card-side bg-base-100 shadow-sm border border-base-300'
